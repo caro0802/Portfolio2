@@ -21,25 +21,30 @@ public class SearchService {
     
     @RequestMapping("/search")
     public String search(@RequestParam(value="query") String query, 
-            @RequestParam(value="type") RequestType requestType,
-            @RequestParam(value="category") RequestCategory requestCategory){
-        SpotifyRequest sr = new SpotifyRequest(requestType.SEARCH);
-        try{
-            Optional <String> optional = sr.performeRequestSearch(requestCategory, query);
-        }
-        catch (WrongRequestTypeException e){
-            e.printStackTrace();    
-        }
-        ObjectMapper mapper = new ObjectMapper();
+            @RequestParam(value="type") String type){
         
-        switch(requestCategory){
-            case "TRACK":
-                break;
-            case "ALBUM":
-                break;
-            case "ARTIST":
-                break;
-        }
+        String hallo ="hallo";
+//        SpotifyRequest sr = new SpotifyRequest(requestType.SEARCH);
+//        try{
+//            Optional <String> optional = sr.performeRequestSearch(requestCategory, query);
+//        }
+//        catch (WrongRequestTypeException e){
+//            e.printStackTrace();    
+//        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        
+//        switch(requestCategory){
+//            case "TRACK":
+//                break;
+//            case "ALBUM":
+//                break;
+//            case "ARTIST":
+//                break;
+//        }
+
+        System.out.println("Hallo Welt");
+        
+        return hallo;
     }
 
 }
