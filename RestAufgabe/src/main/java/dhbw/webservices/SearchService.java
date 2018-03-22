@@ -12,4 +12,5 @@ package dhbw.webservices;
 
 public class SearchService {
     // Diese Klasse stellt den RestController der Anwendung dar...
+    public int hallo = 0;
 }
