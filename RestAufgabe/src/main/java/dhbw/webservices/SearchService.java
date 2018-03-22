@@ -5,12 +5,41 @@
  */
 package dhbw.webservices;
 
-/**
- *
- * @author Marius
- */
+import com.mashape.unirest.http.ObjectMapper;
+import dhbw.spotify.RequestCategory;
+import dhbw.spotify.RequestType;
+import dhbw.spotify.SpotifyRequest;
+import dhbw.spotify.WrongRequestTypeException;
+import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+
+@RestController
 public class SearchService {
-    // Diese Klasse stellt den RestController der Anwendung dar...
-    public int hallo = 0;
+    
+    @RequestMapping("/search")
+    public String search(@RequestParam(value="query") String query, 
+            @RequestParam(value="type") RequestType requestType,
+            @RequestParam(value="category") RequestCategory requestCategory){
+        SpotifyRequest sr = new SpotifyRequest(requestType.SEARCH);
+        try{
+            Optional <String> optional = sr.performeRequestSearch(requestCategory, query);
+        }
+        catch (WrongRequestTypeException e){
+            e.printStackTrace();    
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        
+        switch(requestCategory){
+            case "TRACK":
+                break;
+            case "ALBUM":
+                break;
+            case "ARTIST":
+                break;
+        }
+    }
+
 }
