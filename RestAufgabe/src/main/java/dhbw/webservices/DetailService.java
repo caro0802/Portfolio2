@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dhbw.pojo.detail.album.DetailsAlbum;
+import dhbw.pojo.detail.artist.DetailsArtist;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -68,72 +70,50 @@ public class DetailService {
                     ex.printStackTrace();
                 }
                     DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
-                    resultJson = mapper.writeValueAsString(dr);
+                     try{
+                    resultJson = mapper.writeValueAsString(dr);}
+                    catch(JsonProcessingException ex)
+                    {
+                      ex.printStackTrace();
+                    }   
                 
-                /*
-                Tracks tracks = dt.getTracks();
-                List<Item> itemList = tracks.getItems();
-                for (Item item : itemList){ // Description wird erwartet, steht jedoch nicht im JSON
-                    resultList = new SearchResultList(item.getId(), item.getName(), "Hier könnte ihre Beschreibung stehen", item.getExternalUrls().getSpotify());
-                    result.add(resultList);
-                }
 
-                rs = new SearchResult(query, type, result);
-
-                try {
-                    resultJson = mapper.writeValueAsString(rs);
-                } catch (JsonProcessingException ex) {
-                    ex.printStackTrace();
-                }*/
                 break;
                   
             }
-//            case ALBUM:{
-//                SearchAlbum sal = null;
-//                try {
-//                    sal = mapper.readValue(json, SearchAlbum.class);
-//                } catch (IOException ex) {
-//                  ex.printStackTrace();
-//                }
-//                Albums albums = sal.getAlbums();
-//                List<dhbw.pojo.search.album.Item> itemList = albums.getItems();
-//                for (dhbw.pojo.search.album.Item item : itemList){ // Description wird erwartet, steht jedoch nicht im JSON
-//                    resultList = new SearchResultList(item.getId(), item.getName(), "Hier könnte ihre Beschreibung stehen", item.getExternalUrls().getSpotify());
-//                    result.add(resultList);
-//                }
-//
-//                rs = new SearchResult(query, type, result);
-//
-//                try {
-//                    resultJson = mapper.writeValueAsString(rs);
-//                } catch (JsonProcessingException ex) {
-//                    ex.printStackTrace();
-//                }
-//                break; 
-//            }
-//                
-//            case ARTIST:{
-//                SearchArtist sar = null;
-//                try {
-//                    sar = mapper.readValue(json, SearchArtist.class);
-//                } catch (IOException ex) {
-//                  ex.printStackTrace();
-//                }
-//                Artists artists = sar.getArtists();
-//                List<dhbw.pojo.search.artist.Item> itemList = artists.getItems();
-//                for (dhbw.pojo.search.artist.Item item : itemList){ // Description wird erwartet, steht jedoch nicht im JSON
-//                    resultList = new SearchResultList(item.getId(), item.getName(), "Hier könnte ihre Beschreibung stehen", item.getExternalUrls().getSpotify());
-//                    result.add(resultList);
-//                }
-//
-//                rs = new SearchResult(query, type, result);
-//
-//                try {
-//                    resultJson = mapper.writeValueAsString(rs);
-//                } catch (JsonProcessingException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
+            case ALBUM:{
+                DetailsAlbum album = null;
+                try {
+                    album = mapper.readValue(json, DetailsAlbum.class);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                    DetailResult dr = new DetailResult(album.getName(), "Hier könnte ihre Info stehen.");
+                     try{
+                    resultJson = mapper.writeValueAsString(dr);}
+                    catch(JsonProcessingException ex)
+                    {
+                      ex.printStackTrace();
+                    }   
+                     break;
+            }
+//         
+           case ARTIST:{
+             DetailsArtist artist = null;
+                try {
+                    artist = mapper.readValue(json, DetailsArtist.class);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                    DetailResult dr = new DetailResult(artist.getName(), "Hier könnte ihre Info stehen.");
+                    try{
+                    resultJson = mapper.writeValueAsString(dr);}
+                    catch(JsonProcessingException ex)
+                    {
+                      ex.printStackTrace();
+                    }    
+                    break;
+           }
                     
         }
     System.out.println("Hallo");            
