@@ -16,25 +16,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-//import javax.websocket.server.PathParam
-import org.springframework.web.bind.annotation.PathVariable;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.*;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+//import org.springframework.web.bind.annotation.PathVariable;
+//import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+//import org.codehaus.jackson.map.ObjectMapper;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RestController;
 
 
 
 @RestController
 public class DetailService {
     
-    @RequestMapping(value="/detail/{id}", method=RequestMethod.GET , produces = { "main/js" })
+    @RequestMapping(value="/detail/{id}")
     public String detail(@PathVariable("id") String id,
                          @RequestParam(value="type") String type) throws IOException{
-        System.out.println("Hallo");
         
         SpotifyRequest sr = new SpotifyRequest(RequestType.DETAIL);
         
@@ -64,10 +67,8 @@ public class DetailService {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                if (id.equals(dt.getId()))
-                {DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
-                
-                    resultJson = mapper.writeValueAsString(dr);}
+                    DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
+                    resultJson = mapper.writeValueAsString(dr);
                 
                 /*
                 Tracks tracks = dt.getTracks();
@@ -135,7 +136,7 @@ public class DetailService {
 //            }
                     
         }
-                
+    System.out.println("Hallo");            
     return resultJson;
     }
 }
