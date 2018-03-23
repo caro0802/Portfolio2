@@ -24,6 +24,14 @@ import java.util.List;
 
 public class BuildOutputService {
     
+        ObjectMapper mapper = new ObjectMapper();
+       
+        String resultJson = null;
+        List<SearchResultList> resultList = new ArrayList<SearchResultList>();
+        SearchResultList result = null;
+        SearchResult searchresult = null;
+        SearchTrack track = null;
+        
     //Methode, die je nach ResultCategory eine weitere, der Kategorie entsprechende Methode aufruft
     //Sie liefert einen Json-String an die Hauptmethode Search der Klasse SearchService zurück
     public String categoryFilter(String query, RequestCategory category, String json){
@@ -51,15 +59,7 @@ public class BuildOutputService {
     
     
     public String getTrackJson(String query, String type, String json){
-           
-        ObjectMapper mapper = new ObjectMapper();
-       
-        String resultJson = null;
-        List<SearchResultList> resultList = new ArrayList<SearchResultList>();
-        SearchResultList result = null;
-        SearchResult searchresult = null;
-        SearchTrack track = null;
-        
+            
         //Json in SearchTrack-Objekt mappen
         try {
             track = mapper.readValue(json, SearchTrack.class);
@@ -92,14 +92,7 @@ public class BuildOutputService {
     }
     
     public String getAlbumJson(String query, String type, String json){
-           
-        ObjectMapper mapper = new ObjectMapper();
-       
-        String resultJson = null;
-        List<SearchResultList> resultList = new ArrayList<SearchResultList>();
-        SearchResultList result = null;
-        SearchResult searchresult = null;
-        
+          
         SearchAlbum album = null;
         
         //Json in SearchAlbum-Objekt mappen
@@ -134,13 +127,6 @@ public class BuildOutputService {
     }
     
     public String getArtistJson(String query, String type, String json){
-            
-        ObjectMapper mapper = new ObjectMapper();
-       
-        String resultJson = null;
-        List<SearchResultList> resultList = new ArrayList<SearchResultList>();
-        SearchResultList result = null;
-        SearchResult searchresult = null;
         
         SearchArtist artist = null;
         
