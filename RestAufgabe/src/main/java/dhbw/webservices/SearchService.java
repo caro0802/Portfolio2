@@ -9,27 +9,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dhbw.pojo.result.search.SearchResult;
 import dhbw.pojo.result.search.SearchResultList;
-import dhbw.pojo.search.album.Albums;
-import dhbw.pojo.search.album.SearchAlbum;
-import dhbw.pojo.search.artist.Artists;
-import dhbw.pojo.search.artist.SearchArtist;
+import dhbw.pojo.search.album.*;
+import dhbw.pojo.search.artist.*;
 import dhbw.pojo.search.track.Item;
 import dhbw.pojo.search.track.SearchTrack;
 import dhbw.pojo.search.track.Tracks;
-import dhbw.spotify.RequestCategory;
-import dhbw.spotify.RequestType;
-import dhbw.spotify.SpotifyRequest;
-import dhbw.spotify.WrongRequestTypeException;
+import dhbw.spotify.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -65,13 +56,13 @@ public class SearchService {
         
         switch(category){
             case TRACK:{
-                SearchTrack st = null;
+                SearchTrack track = null;
                 try {
-                    st = mapper.readValue(json, SearchTrack.class);
+                    track = mapper.readValue(json, SearchTrack.class);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                Tracks tracks = st.getTracks();
+                Tracks tracks = track.getTracks();
                 List<Item> itemList = tracks.getItems();
                 for (Item item : itemList){ // Description wird erwartet, steht jedoch nicht im JSON
                     resultList = new SearchResultList(item.getId(), item.getName(), "Hier könnte ihre Beschreibung stehen", item.getExternalUrls().getSpotify());
@@ -89,13 +80,13 @@ public class SearchService {
                   
             }
             case ALBUM:{
-                SearchAlbum sal = null;
+                SearchAlbum album = null;
                 try {
-                    sal = mapper.readValue(json, SearchAlbum.class);
+                    album = mapper.readValue(json, SearchAlbum.class);
                 } catch (IOException ex) {
                   ex.printStackTrace();
                 }
-                Albums albums = sal.getAlbums();
+                Albums albums = album.getAlbums();
                 List<dhbw.pojo.search.album.Item> itemList = albums.getItems();
                 for (dhbw.pojo.search.album.Item item : itemList){ // Description wird erwartet, steht jedoch nicht im JSON
                     resultList = new SearchResultList(item.getId(), item.getName(), "Hier könnte ihre Beschreibung stehen", item.getExternalUrls().getSpotify());
@@ -113,14 +104,15 @@ public class SearchService {
             }
                 
             case ARTIST:{
-                SearchArtist sar = null;
+                SearchArtist artist = null;
                 try {
-                    sar = mapper.readValue(json, SearchArtist.class);
+                    artist = mapper.readValue(json, SearchArtist.class);
                 } catch (IOException ex) {
                   ex.printStackTrace();
                 }
-                Artists artists = sar.getArtists();
+                Artists artists = artist.getArtists();
                 List<dhbw.pojo.search.artist.Item> itemList = artists.getItems();
+                
                 for (dhbw.pojo.search.artist.Item item : itemList){ // Description wird erwartet, steht jedoch nicht im JSON
                     resultList = new SearchResultList(item.getId(), item.getName(), "Hier könnte ihre Beschreibung stehen", item.getExternalUrls().getSpotify());
                     result.add(resultList);
