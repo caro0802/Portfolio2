@@ -30,13 +30,11 @@ public class BuildOutputService {
         List<SearchResultList> resultList = new ArrayList<SearchResultList>();
         SearchResultList result = null;
         SearchResult searchresult = null;
-        SearchTrack track = null;
         
     //Methode, die je nach ResultCategory eine weitere, der Kategorie entsprechende Methode aufruft
     //Sie liefert einen Json-String an die Hauptmethode Search der Klasse SearchService zurück
     public String categoryFilter(String query, RequestCategory category, String json){
        
-        String resultJson = null;
         String type= String.valueOf(category);
 
         //nach Kategorie filtern und entsprechende Methode aufrufen
@@ -59,7 +57,8 @@ public class BuildOutputService {
     
     
     public String getTrackJson(String query, String type, String json){
-            
+         
+        SearchTrack track = null;
         //Json in SearchTrack-Objekt mappen
         try {
             track = mapper.readValue(json, SearchTrack.class);
