@@ -8,8 +8,6 @@ package dhbw.webservices;
 import dhbw.pojo.detail.album.Tracks;
 import dhbw.pojo.detail.track.DetailsTrack;
 import dhbw.pojo.result.detail.DetailResult;
-import dhbw.pojo.result.search.SearchResult;
-import dhbw.pojo.result.search.SearchResultList;
 import dhbw.spotify.RequestCategory;
 import dhbw.spotify.RequestType;
 import dhbw.spotify.SpotifyRequest;
@@ -18,9 +16,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.websocket.server.PathParam;
+//import javax.websocket.server.PathParam
+import org.springframework.web.bind.annotation.PathVariable;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DetailService {
     
-    @RequestMapping("/detail/{id}")
-    public String detail(@PathParam("id") String id,
+    @RequestMapping(value="/detail/{id}", method=RequestMethod.GET , produces = { "main/js" })
+    public String detail(@PathVariable("id") String id,
                          @RequestParam(value="type") String type) throws IOException{
         System.out.println("Hallo");
         
@@ -53,8 +55,7 @@ public class DetailService {
        ObjectMapper mapper = new ObjectMapper();
        
        String resultJson = null;
-
-        
+       
         switch(category){
             case TRACK:{
                 DetailsTrack dt = null;
@@ -63,10 +64,10 @@ public class DetailService {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                if (id.equals(dt.getId()))
+                {DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
                 
-                DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
-                
-                    resultJson = mapper.writeValueAsString(dr);
+                    resultJson = mapper.writeValueAsString(dr);}
                 
                 /*
                 Tracks tracks = dt.getTracks();
