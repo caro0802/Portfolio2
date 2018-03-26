@@ -55,7 +55,7 @@ public class DetailService {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                    DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.", dt.getAlbum(), dt.getArtists());
+                    DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
                      try{
                     resultJson = mapper.writeValueAsString(dr);}
                     catch(JsonProcessingException ex)
