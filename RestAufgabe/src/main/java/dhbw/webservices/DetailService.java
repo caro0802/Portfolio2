@@ -23,16 +23,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class DetailService {
     
+     //liefert einen Json-String zurück
     @RequestMapping(value="/detail/{id}")
     public String detail(@PathVariable("id") String id,
                          @RequestParam(value="type") String type) throws IOException{
         
+        //SpotifyRequest erstellen mit Typ DETAIL
         SpotifyRequest sr = new SpotifyRequest(RequestType.DETAIL);
         
         String json = null;
         
+        //Typ der als String in Parameter steht in RequestCategory umwandeln
         RequestCategory category = RequestCategory.valueOf(type);
         
+        //Methode performeRequestSearch der Klasse SpotifyRequest aufrufen
+        //liefert Optional String zurück, deshalb mit Try-Catch Block umranden
         try{
             Optional <String> optional = sr.performeRequestDetail(category, id);
             if (optional.isPresent()){ 		//Prüfen, ob der String null ist 	
@@ -47,16 +52,21 @@ public class DetailService {
        
        String resultJson = null;
        
+         //gibt je nach ResultCategory eine andere, der Kategorie entsprechende Ausgabe aus
         switch(category){
             case TRACK:{
                 DetailsTrack dt = null;
+                //Json in DetailsTrack-Objekt mappen
                 try {
                     dt = mapper.readValue(json, DetailsTrack.class);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                    //aus name und info DetailResult Objekt erzeugen
                     DetailResult dr = new DetailResult(dt.getName(), "Hier könnte ihre Info stehen.");
-                     try{
+                    
+                    //DetailResult als Json mappen
+                    try{
                     resultJson = mapper.writeValueAsString(dr);}
                     catch(JsonProcessingException ex)
                     {
@@ -69,13 +79,17 @@ public class DetailService {
             }
             case ALBUM:{
                 DetailsAlbum album = null;
+                //Json in DetailsAlbum-Objekt mappen
                 try {
                     album = mapper.readValue(json, DetailsAlbum.class);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                    //aus name und info DetailResult Objekt erzeugen
                     DetailResult dr = new DetailResult(album.getName(), "Hier könnte ihre Info stehen.");
-                     try{
+                    
+                    //DetailResult als Json mappen
+                    try{
                     resultJson = mapper.writeValueAsString(dr);}
                     catch(JsonProcessingException ex)
                     {
@@ -86,12 +100,16 @@ public class DetailService {
         
            case ARTIST:{
              DetailsArtist artist = null;
+             //Json in DetailsArtist-Objekt mappen
                 try {
                     artist = mapper.readValue(json, DetailsArtist.class);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                    //aus name und info DetailResult Objekt erzeugen
                     DetailResult dr = new DetailResult(artist.getName(), "Hier könnte ihre Info stehen.");
+                    
+                    //DetailResult als Json mappen
                     try{
                     resultJson = mapper.writeValueAsString(dr);}
                     catch(JsonProcessingException ex)
