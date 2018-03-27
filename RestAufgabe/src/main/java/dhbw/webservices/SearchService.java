@@ -18,13 +18,18 @@ public class SearchService {
     public String search(@RequestParam(value="query") String query, 
             @RequestParam(value="type") String type){
         
+        //SpotifyRequest erstellen mit Typ SEARCH
         SpotifyRequest sr = new SpotifyRequest(RequestType.SEARCH);
         
         String json = null;
         String resultJson = null;
      
+        //Typ der als String in Parameter steht in RequestCategory umwandeln
         RequestCategory category = RequestCategory.valueOf(type);
         
+        
+        //Methode performeRequestSearch der Klasse SpotifyRequest aufrufen
+        //liefert Optional String zurück, deshalb mit Try-Catch Block umranden
         try{
             Optional <String> optional = sr.performeRequestSearch(category, query);
             if (optional.isPresent()){ 		//Prüfen, ob der String null ist 	
@@ -35,9 +40,10 @@ public class SearchService {
             e.printStackTrace();    
         }
         
+        //Suchanfrage an Klasse BuildOutputService weiterleiten
         BuildOutputService build = new BuildOutputService();
         resultJson = build.categoryFilter(query, category, json);
-                   
+         
     return resultJson;
     }
 }
